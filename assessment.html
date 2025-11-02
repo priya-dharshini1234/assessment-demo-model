@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical Assessment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #dfe6e9;
+      padding: 30px;
+    }
+    h2 {
+      text-align: center;
+      color: #2d3436;
+    }
+    .question {
+      margin-bottom: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin: 6px 0;
+      cursor: pointer;
+    }
+    button {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 25px;
+      background-color: #0984e3;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #74b9ff;
+    }
+  </style>
+</head>
+<body>
+  <h2>Medical Knowledge Assessment</h2>
+
+  <form id="quizForm">
+    <div class="question">
+      <p>1. What is the normal body temperature of a healthy adult?</p>
+      <label><input type="radio" name="q1" value="a"> 37°C</label>
+      <label><input type="radio" name="q1" value="b"> 39°C</label>
+      <label><input type="radio" name="q1" value="c"> 35°C</label>
+      <label><input type="radio" name="q1" value="d"> 40°C</label>
+    </div>
+
+    <div class="question">
+      <p>2. Which organ in the human body purifies blood?</p>
+      <label><input type="radio" name="q2" value="a"> Heart</label>
+      <label><input type="radio" name="q2" value="b"> Liver</label>
+      <label><input type="radio" name="q2" value="c"> Kidney</label>
+      <label><input type="radio" name="q2" value="d"> Lungs</label>
+    </div>
+
+    <div class="question">
+      <p>3. Which vitamin is produced when the skin is exposed to sunlight?</p>
+      <label><input type="radio" name="q3" value="a"> Vitamin A</label>
+      <label><input type="radio" name="q3" value="b"> Vitamin B</label>
+      <label><input type="radio" name="q3" value="c"> Vitamin C</label>
+      <label><input type="radio" name="q3" value="d"> Vitamin D</label>
+    </div>
+
+    <div class="question">
+      <p>4. Which blood group is known as the universal donor?</p>
+      <label><input type="radio" name="q4" value="a"> A+</label>
+      <label><input type="radio" name="q4" value="b"> AB+</label>
+      <label><input type="radio" name="q4" value="c"> O−</label>
+      <label><input type="radio" name="q4" value="d"> B+</label>
+    </div>
+
+    <div class="question">
+      <p>5. Which organ controls all body functions?</p>
+      <label><input type="radio" name="q5" value="a"> Heart</label>
+      <label><input type="radio" name="q5" value="b"> Brain</label>
+      <label><input type="radio" name="q5" value="c"> Liver</label>
+      <label><input type="radio" name="q5" value="d"> Kidney</label>
+    </div>
+
+    <button type="button" onclick="submitQuiz()">Submit</button>
+  </form>
+
+  <script>
+    function submitQuiz() {
+      const correctAnswers = {
+        q1: "a",
+        q2: "c",
+        q3: "d",
+        q4: "c",
+        q5: "b"
+      };
+
+      let score = 0;
+      let results = [];
+
+      for (const [question, answer] of Object.entries(correctAnswers)) {
+        const selected = document.querySelector(`input[name="${question}"]:checked`);
+        if (selected && selected.value === answer) {
+          score++;
+          results.push({ question, status: "✅ Correct", correctAnswer: answer.toUpperCase() });
+        } else if (selected) {
+          results.push({ question, status: "❌ Wrong", correctAnswer: answer.toUpperCase() });
+        } else {
+          results.push({ question, status: "⚠️ Not Answered", correctAnswer: answer.toUpperCase() });
+        }
+      }
+
+      localStorage.setItem("quizScore", score);
+      localStorage.setItem("quizTotal", Object.keys(correctAnswers).length);
+      localStorage.setItem("quizResults", JSON.stringify(results));
+
+      window.location.href = "result.html";
+    }
+  </script>
+</body>
+</html>
